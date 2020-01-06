@@ -9,8 +9,7 @@ import {findIndex, filter} from 'lodash';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: [],
+    this.state = {      
       isDisplayForm: false,
       taskEditing: null,
       filter: {
@@ -22,15 +21,7 @@ class App extends Component {
       sortBy: 'name',
       sortValue: 1
     }
-  }  
-  componentWillMount(){
-    if(localStorage && localStorage.getItem('tasks')){
-      var tasks = JSON.parse(localStorage.getItem('tasks')); //Chuyển qua dạng object
-      this.setState({
-        tasks: tasks
-      });
-    }
-  }
+  }   
   // ----------------------FUNCTION----------------------  
   onToggleForm = () =>{  
     if(this.state.isDisplayForm && this.state.taskEditing !== null){
@@ -129,7 +120,7 @@ class App extends Component {
   }
   findIndex = (id) =>{ //Tìm vị trí của item
     var {tasks} = this.state;
-    var result = -1
+    var result = -1;
     tasks.forEach((task, index) =>{
       if(task.id === id){
         result = index;
@@ -140,45 +131,45 @@ class App extends Component {
   // ----------------------END FUNCTION----------------------
   
   render() {    
-    var {tasks, isDisplayForm, taskEditing, filter, keyword, sortBy, sortValue} = this.state;    
+    var { isDisplayForm, taskEditing, filter, keyword, sortBy, sortValue} = this.state;    
     var eleTaskForm = isDisplayForm === true ? <TaskForm onCloseForm={this.onCloseForm} onSubmit={this.onSubmit} task={taskEditing} /> : '';        
-    if(filter){
-      if(filter.name){ //Tồn tại
-        tasks = tasks.filter((task) =>{
-          return task.name.toLowerCase().indexOf(filter.name) !== -1;
-        });
-      }
-      tasks = tasks.filter((task) => {
-        if(filter.status === -1){
-          return task;
-        }else {
-          return task.status === (filter.status === 1 ? true : false);
-        }
-      });      
-    }
+    // if(filter){
+    //   if(filter.name){ //Tồn tại
+    //     tasks = tasks.filter((task) =>{
+    //       return task.name.toLowerCase().indexOf(filter.name) !== -1;
+    //     });
+    //   }
+    //   tasks = tasks.filter((task) => {
+    //     if(filter.status === -1){
+    //       return task;
+    //     }else {
+    //       return task.status === (filter.status === 1 ? true : false);
+    //     }
+    //   });      
+    // }
 
-    if(keyword){
-      tasks = tasks.filter((task) =>{
-        return task.name.toLowerCase().indexOf(keyword) !== -1;
-      });
-      // tasks = filter(tasks, (task) =>{
-      //   return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1; 
-      // });
-    }  
+    // if(keyword){
+    //   tasks = tasks.filter((task) =>{
+    //     return task.name.toLowerCase().indexOf(keyword) !== -1;
+    //   });
+    //   tasks = filter(tasks, (task) =>{
+    //     return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1; 
+    //   });
+    // }  
 
-    if(sortBy === 'name'){
-      tasks.sort((a,b) =>{
-        if(a.name > b.name) return sortValue; //Tăng dần 
-        else if(a.name < b.name) return -sortValue; //Giảm dần 
-        else return 0;
-      });
-    }else  {
-      tasks.sort((a,b) =>{
-        if(a.status > b.status) return -sortValue; //Tăng dần 
-        else if(a.status < b.status) return sortValue; //Giảm dần 
-        else return 0;
-      });
-    }
+    // if(sortBy === 'name'){
+    //   tasks.sort((a,b) =>{
+    //     if(a.name > b.name) return sortValue; //Tăng dần 
+    //     else if(a.name < b.name) return -sortValue; //Giảm dần 
+    //     else return 0;
+    //   });
+    // }else  {
+    //   tasks.sort((a,b) =>{
+    //     if(a.status > b.status) return -sortValue; //Tăng dần 
+    //     else if(a.status < b.status) return sortValue; //Giảm dần 
+    //     else return 0;
+    //   });
+    // }
     return (
       <div className="container">
         <div className="text-center">
@@ -199,7 +190,7 @@ class App extends Component {
             {/* List */}
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <TaskList tasks={tasks} onUpdateStatus={this.onUpdateStatus} onDelete={this.onDelete} onUpdate={this.onUpdate} onFilter={this.onFilter}/>
+                <TaskList onUpdateStatus={this.onUpdateStatus} onDelete={this.onDelete} onUpdate={this.onUpdate} onFilter={this.onFilter}/>
               </div>
             </div>
           </div>

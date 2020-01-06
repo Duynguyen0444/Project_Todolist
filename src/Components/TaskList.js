@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TaskItem from './TaskItem';
+import {connect} from 'react-redux';
 
 class TaskList extends Component {   
   constructor(props){
@@ -22,7 +23,7 @@ class TaskList extends Component {
     });
 
   }
-  render() {  
+  render() {      
     var {tasks, onUpdateStatus, onDelete, onUpdate} = this.props;
     var {filterName, filterStatus} = this.state;
     var eleTasks = tasks.map((task, index) =>{
@@ -33,7 +34,7 @@ class TaskList extends Component {
                        onDelete={onDelete}
                        onUpdate={onUpdate}/>
     })
-    return (
+    return (      
       <table className="table table-bordered table-hover">
         <thead>
           <tr>
@@ -66,4 +67,11 @@ class TaskList extends Component {
   }
 }
 
-export default TaskList;
+//Các state của Store sẽ chuyển thành các Props
+const mapStateToProps = state =>{
+  return {
+    tasks: state.tasks 
+  }
+}
+
+export default connect(mapStateToProps, null)(TaskList);
