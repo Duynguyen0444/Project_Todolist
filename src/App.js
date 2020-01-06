@@ -5,12 +5,13 @@ import Control from './Components/Control';
 import TaskList from './Components/TaskList';
 import uuidv4 from 'uuid/v4';
 import {findIndex, filter} from 'lodash';
+import {connect} from 'react-redux';
+import * as actions from './Action/index';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {      
-      isDisplayForm: false,
+    this.state = {            
       taskEditing: null,
       filter: {
         name: '',
@@ -24,44 +25,24 @@ class App extends Component {
   }   
   // ----------------------FUNCTION----------------------  
   onToggleForm = () =>{  
-    if(this.state.isDisplayForm && this.state.taskEditing !== null){
-      this.setState({
-        isDisplayForm: true,
-        taskEditing: null
-      });
-    }else{
-      this.setState({
-        isDisplayForm: !this.state.isDisplayForm,
-        taskEditing: null
-      });
-    }   
+    // if(this.state.isDisplayForm && this.state.taskEditing !== null){
+    //   this.setState({
+    //     isDisplayForm: true,
+    //     taskEditing: null
+    //   });
+    // }else{
+    //   this.setState({
+    //     isDisplayForm: !this.state.isDisplayForm,
+    //     taskEditing: null
+    //   });
+    // }   
+    this.props.onToggleForm();
   }
   onShowForm = () =>{
     this.setState({
       isDisplayForm: true
     });
-  }
-  onCloseForm = () =>{
-    this.setState({
-      isDisplayForm: !this.state.isDisplayForm
-    });
-  }
-  onSubmit = (data) =>{
-    var {tasks} = this.state;
-    if(data.id === ''){
-      data.id = uuidv4();
-      tasks.push(data); //Thêm mới dữ liệu
-    }else{
-      //Editing
-      var index  = this.findIndex(data.id);    
-      tasks[index] = data;      
-    } 
-    this.setState({
-      tasks: tasks,
-      taskEditing: null
-    });
-    localStorage.setItem('tasks',JSON.stringify(tasks));    
-  }
+  } 
   onUpdateStatus = (id) =>{ //Cập nhật status
     var {tasks} = this.state;
     // var index  = this.findIndex(id);    
@@ -131,8 +112,9 @@ class App extends Component {
   // ----------------------END FUNCTION----------------------
   
   render() {    
-    var { isDisplayForm, taskEditing, filter, keyword, sortBy, sortValue} = this.state;    
-    var eleTaskForm = isDisplayForm === true ? <TaskForm onCloseForm={this.onCloseForm} onSubmit={this.onSubmit} task={taskEditing} /> : '';        
+    var { taskEditing, filter, keyword, sortBy, sortValue} = this.state;    
+    var {isDisplayForm} = this.props;
+    var eleTaskForm = isDisplayForm === true ? <TaskForm task={taskEditing} /> : '';        
     // if(filter){
     //   if(filter.name){ //Tồn tại
     //     tasks = tasks.filter((task) =>{
@@ -200,4 +182,21 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state =>{
+  return{
+    isDisplayForm: state.isDisplayForm //state này từ store
+  }
+}
+
+const mapDispatchToProps = (dispatch, props) =>{
+  return{
+    onToggleForm: () =>{
+      dispatch(actions.toggleForm());
+    },   
+    onOpenForm: () =>{
+      dispatch(actions.openForm());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
