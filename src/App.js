@@ -3,8 +3,7 @@ import './App.css';
 import TaskForm from './Components/TaskForm';
 import Control from './Components/Control';
 import TaskList from './Components/TaskList';
-import uuidv4 from 'uuid/v4';
-import {findIndex, filter} from 'lodash';
+// import {findIndex, filter} from 'lodash';
 import {connect} from 'react-redux';
 import * as actions from './Action/index';
 
@@ -24,18 +23,7 @@ class App extends Component {
     }
   }   
   // ----------------------FUNCTION----------------------  
-  onToggleForm = () =>{  
-    // if(this.state.isDisplayForm && this.state.taskEditing !== null){
-    //   this.setState({
-    //     isDisplayForm: true,
-    //     taskEditing: null
-    //   });
-    // }else{
-    //   this.setState({
-    //     isDisplayForm: !this.state.isDisplayForm,
-    //     taskEditing: null
-    //   });
-    // }   
+  onToggleForm = () =>{      
     this.props.onToggleForm();
   }
   onShowForm = () =>{
@@ -43,41 +31,8 @@ class App extends Component {
       isDisplayForm: true
     });
   } 
-  onUpdateStatus = (id) =>{ //Cập nhật status
-    var {tasks} = this.state;
-    // var index  = this.findIndex(id);    
-    var index = findIndex(tasks,(task) =>{
-      return task.id === id;
-    });
-    if(index !== -1){ //Tìm thấy
-      tasks[index].status = !tasks[index].status;
-      this.setState({
-        tasks: tasks
-      });
-      localStorage.setItem('tasks' , JSON.stringify(tasks));
-    }   
-  }
-  onDelete = (id) =>{
-    var {tasks} = this.state;
-    var index  = this.findIndex(id);    
-    if(index !== -1){ //Tìm thấy
-      tasks.splice(index, 1); //Truyền vào index và số lượng cần xóa
-      this.setState({
-        tasks: tasks
-      });
-      localStorage.setItem('tasks' , JSON.stringify(tasks));
-    }   
-    this.onCloseForm();
-  }
-  onUpdate = (id) =>{
-    var {tasks} = this.state;
-    var index  = this.findIndex(id);  
-    var taskEditing = tasks[index];    
-    this.setState({
-      taskEditing: taskEditing
-    });
-    this.onShowForm();
-  }
+  
+  
   onFilter = (filterName, filterStatus) =>{    
     filterStatus = parseInt(filterStatus, 10); //Chuyển kiểu dữ liệu string -> boolean    
     this.setState({
@@ -112,7 +67,7 @@ class App extends Component {
   // ----------------------END FUNCTION----------------------
   
   render() {    
-    var { taskEditing, filter, keyword, sortBy, sortValue} = this.state;    
+    var { taskEditing, sortBy, sortValue} = this.state;    
     var {isDisplayForm} = this.props;
     var eleTaskForm = isDisplayForm === true ? <TaskForm task={taskEditing} /> : '';        
     // if(filter){
@@ -172,7 +127,7 @@ class App extends Component {
             {/* List */}
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <TaskList onUpdateStatus={this.onUpdateStatus} onDelete={this.onDelete} onUpdate={this.onUpdate} onFilter={this.onFilter}/>
+                <TaskList onFilter={this.onFilter}/>
               </div>
             </div>
           </div>

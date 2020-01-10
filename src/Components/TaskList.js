@@ -24,15 +24,12 @@ class TaskList extends Component {
 
   }
   render() {      
-    var {tasks, onUpdateStatus, onDelete, onUpdate} = this.props;
+    var {tasks} = this.props;
     var {filterName, filterStatus} = this.state;
     var eleTasks = tasks.map((task, index) =>{
       return <TaskItem key={task.id} 
-                       index={index}
-                       task={task}
-                       onUpdateStatus={onUpdateStatus}
-                       onDelete={onDelete}
-                       onUpdate={onUpdate}/>
+                       index={index + 1}
+                       task={task}/>
     })
     return (      
       <table className="table table-bordered table-hover">
