@@ -66,6 +66,7 @@ class TaskForm extends Component {
   // ----------------------END FUNCTION----------------------
   render() {
     var {id} = this.state;
+    if(!this.props.isDisplayForm) return '';
     return (
       <div className="panel panel-warning">
         <div className="panel-heading">
@@ -102,7 +103,7 @@ class TaskForm extends Component {
 //Tham số đầu 
 const mapStateToProps = state => {
   return{
-
+    isDisplayForm: state.isDisplayForm,
   }
 }
 
@@ -115,6 +116,9 @@ const mapDispatchToProps = (dispatch, props) =>{
     onCloseForm: () =>{
       dispatch(actions.closeForm());
     },
+    onToggleForm: () =>{
+      dispatch(actions.toggleForm());
+    }
   }
 }
 

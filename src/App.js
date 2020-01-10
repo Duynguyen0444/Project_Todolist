@@ -69,7 +69,7 @@ class App extends Component {
   render() {    
     var { taskEditing, sortBy, sortValue} = this.state;    
     var {isDisplayForm} = this.props;
-    var eleTaskForm = isDisplayForm === true ? <TaskForm task={taskEditing} /> : '';        
+    
     // if(filter){
     //   if(filter.name){ //Tồn tại
     //     tasks = tasks.filter((task) =>{
@@ -116,7 +116,7 @@ class App extends Component {
         <div className="row">
           <div className={isDisplayForm === true ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ''}>
             {/* TaskForm */}
-            {eleTaskForm}
+            <TaskForm task={taskEditing} />
           </div>
           <div className={isDisplayForm === true ? "col-xs-8 col-sm-8 col-md-8 col-lg-8"  : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
             <button type="button" className="btn btn-primary" onClick={this.onToggleForm}>

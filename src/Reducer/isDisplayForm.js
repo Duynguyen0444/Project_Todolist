@@ -5,14 +5,12 @@ var initialState = false; //Close form
 var myReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.TOGGLE_FORM:
-      return !state;
+      return !state; 
     case types.OPEN_FORM:
-      //Cập nhật lại state sau khi mở 
-      state = true;
-      return state;
-    case types.CLOSE_FORM:
-      state = false
-      return state;
+      //Cập nhật lại state sau khi mở       
+      return true;
+    case types.CLOSE_FORM:      
+      return false;
     default:
       return state;
   }
