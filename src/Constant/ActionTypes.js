@@ -7,3 +7,4 @@ export const UPDATE_STATUS_TASK = 'UPDATE_STATUS_TASK';
 export const DELETE_TASK = 'DELETE_TASK';
 export const EDIT_TASK = 'EDIT_TASK';
 export const FILTER_TABLE = 'FILTER_TABLE';
+export const SEARCH = 'SEARCH';
