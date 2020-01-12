@@ -31,3 +31,6 @@ export const filterTask = filter => {
 export const searchTask = keyword => {
   return {type: types.SEARCH, keyword}
 }
+export const sortTask = sort => {
+  return {type: types.SORT, sort}
+}

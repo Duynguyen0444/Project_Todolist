@@ -3,19 +3,10 @@ import './App.css';
 import TaskForm from './Components/TaskForm';
 import Control from './Components/Control';
 import TaskList from './Components/TaskList';
-// import {findIndex, filter} from 'lodash';
 import {connect} from 'react-redux';
 import * as actions from './Action/index';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {                      
-      keyword: '',      
-      sortBy: 'name',
-      sortValue: 1
-    }
-  }   
+class App extends Component {  
   // ----------------------FUNCTION----------------------  
   onToggleForm = () =>{  
     var {itemEditing} = this.props;
@@ -36,57 +27,16 @@ class App extends Component {
     });
   } 
   
- 
-  onSearch = (keyword) =>{
-    this.setState({
-      keyword: keyword
-    });
-  }
   onSort = (sortBy, sortValue) =>{    
     this.setState({
       sortBy: sortBy,
       sortValue: sortValue     
-    });
-    console.log(this.state);
-  }
-  findIndex = (id) =>{ //Tìm vị trí của item
-    var {tasks} = this.state;
-    var result = -1;
-    tasks.forEach((task, index) =>{
-      if(task.id === id){
-        result = index;
-      }      
     });    
-    return result;
-  }  
+  } 
   // ----------------------END FUNCTION----------------------
   
-  render() {    
-    var { sortBy, sortValue} = this.state;
-    var {isDisplayForm} = this.props;
-       
-    // if(keyword){
-    //   tasks = tasks.filter((task) =>{
-    //     return task.name.toLowerCase().indexOf(keyword) !== -1;
-    //   });
-    //   tasks = filter(tasks, (task) =>{
-    //     return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1; 
-    //   });
-    // }  
-
-    // if(sortBy === 'name'){
-    //   tasks.sort((a,b) =>{
-    //     if(a.name > b.name) return sortValue; //Tăng dần 
-    //     else if(a.name < b.name) return -sortValue; //Giảm dần 
-    //     else return 0;
-    //   });
-    // }else  {
-    //   tasks.sort((a,b) =>{
-    //     if(a.status > b.status) return -sortValue; //Tăng dần 
-    //     else if(a.status < b.status) return sortValue; //Giảm dần 
-    //     else return 0;
-    //   });
-    // }
+  render() {        
+    var {isDisplayForm} = this.props;    
     return (
       <div className="container">
         <div className="text-center">
@@ -103,7 +53,7 @@ class App extends Component {
               <span className="fa fa-plus mr-5"></span>Thêm Công Việc
             </button>            
             {/* Search - Sort Truyền ngược sortBy & sortValue vào component Sort */}
-            <Control onSearch={this.onSearch} onSort={this.onSort} sortBy={sortBy} sortValue={sortValue}/>  
+            <Control/>  
             {/* List */}
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -135,9 +85,7 @@ const mapDispatchToProps = (dispatch, props) =>{
     onClearTask: (task) => {
       dispatch(actions.editTask(task));
     },
-    onOpenForm: () =>{
-      dispatch(actions.openForm());
-    },
+
   }
 }
 

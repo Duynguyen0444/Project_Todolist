@@ -28,7 +28,7 @@ class TaskList extends Component {
 
   }
   render() {
-    var {tasks, filterTable, keyword} = this.props;
+    var {tasks, filterTable, keyword, sort} = this.props;
     var {filterName, filterStatus} = this.state;
 
     //------------FILTER TABLE FUNCTION---------------------
@@ -48,6 +48,20 @@ class TaskList extends Component {
     tasks = tasks.filter((task) => {
       return task.name.toLowerCase().indexOf(keyword) !== -1;
     });
+    //------------SORT FUNCTION---------------------
+    if(sort.by === 'name'){
+      tasks.sort((a,b) =>{
+        if(a.name > b.name) return sort.value; //Tăng dần 
+        else if(a.name < b.name) return -sort.value; //Giảm dần 
+        else return 0;
+      });
+    }else  {
+      tasks.sort((a,b) =>{
+        if(a.status > b.status) return -sort.value; //Tăng dần 
+        else if(a.status < b.status) return sort.value; //Giảm dần 
+        else return 0;
+      });
+    }
     var eleTasks = tasks.map((task, index) => {
       return <TaskItem key={task.id} index={index + 1} task={task}/>
     })
@@ -95,7 +109,12 @@ class TaskList extends Component {
 
 //Các state của Store sẽ chuyển thành các Props
 const mapStateToProps = state => {
-  return {tasks: state.tasks, filterTable: state.filterTable, keyword: state.search}
+  return {
+    tasks: state.tasks, 
+    filterTable: state.filterTable, 
+    keyword: state.search,
+    sort: state.sort
+  }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
