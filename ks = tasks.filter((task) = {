@@ -1,0 +1,29 @@
+[33mcommit 9142bf376387db63b0bf103f91e052ea015afba3[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: duynguyen0333 <duynguyen0333@gmail.com>
+Date:   Fri Jan 10 10:32:44 2020 +0700
+
+    Update Function - Get object when hit edit button
+
+[33mcommit 4e22c3336650d0b9faed6af38a17c60140c38713[m
+Author: duynguyen0333 <duynguyen0333@gmail.com>
+Date:   Fri Jan 10 09:38:59 2020 +0700
+
+    Update and Delete function by redux
+
+[33mcommit feab29a2e90c2bc0a144204d322b87fb5048d4ce[m
+Author: duynguyen0333 <duynguyen0333@gmail.com>
+Date:   Mon Jan 6 22:45:34 2020 +0700
+
+    Open/Close Form
+
+[33mcommit 1c249b17b870e9fe43e71eb00320871f6a3fc860[m
+Author: duynguyen0333 <duynguyen0333@gmail.com>
+Date:   Mon Jan 6 20:59:13 2020 +0700
+
+    Them cong viec bang redux
+
+[33mcommit f08c47de9399da2ff271f587fe53844a98287ccb[m
+Author: duynguyen0333 <duynguyen0333@gmail.com>
+Date:   Mon Jan 6 10:14:13 2020 +0700
+
+    First commit

@@ -24,23 +24,30 @@ var myReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.LIST_ALL:
       return state;
-    case types.ADD_TASK:
-      var newTask = {
-        id: uuidv4(),
+    // -------------------ADD AND UPDATE TASK-------------------
+    case types.SAVE_TASK:
+      var task ={
+        id: action.task.id,
         name: action.task.name,
-        status: action.task.status === 'true'
-          ? true
-          : false
-      }
-      state.push(newTask);
+        status: action.task.status === 'true' ? true : false
+      };
+      if(!task.id){ //Trường hợp chưa có id
+        task.id = uuidv4();
+        state.push(task);
+      }else{
+        index = findIndex(state, task.id);
+        state[index] = task;
+      }    
       //Lưu local dưới dặng string thay vì object
       localStorage.setItem('tasks', JSON.stringify(state));
       return [...state];
+      // -------------------UPDATE STATUS-------------------
     case types.UPDATE_STATUS_TASK:
       id = action.id;
       index = findIndex(state, id);
       // Tạo object mới => Thay đổi status => Cắt ra khỏi mảng cũ và push vào
-      // cloneTask ----------Cách 1---------- var cloneTask = {...state[index]};
+      // cloneTask 
+      //----------Cách 1---------- var cloneTask = {...state[index]};
       // cloneTask.status = !cloneTask.status; state[index] = cloneTask;
       // ----------Cách 2---------- state.splice(index, 1); state.push(cloneTask);
       // ----------Cách 3----------
@@ -50,6 +57,7 @@ var myReducer = (state = initialState, action) => {
       }
       localStorage.setItem('tasks', JSON.stringify(state)); //State lúc này là các task
       return [...state];
+      // -------------------DELETE STATUS-------------------
     case types.DELETE_TASK:
       id = action.id;
       index = findIndex(state, id);

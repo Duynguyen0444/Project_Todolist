@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TaskItem from './TaskItem';
+import * as actions from '../Action/index';
 import {connect} from 'react-redux';
 
 class TaskList extends Component {   
@@ -14,18 +15,34 @@ class TaskList extends Component {
     var target = event.target;
     var name = target.name;
     var value = target.value;
-    this.props.onFilter( //Truyền ra App filterName
-      name === 'filterName' ? value : this.state.filterName,
-      name === 'filterStatus' ? value : this.state.filterStatus
-    );
+    var filter = {
+      name: name === 'filterName' ? value : this.state.filterName,
+      status: name === 'filterStatus' ? value : this.state.filterStatus,
+    }  
+    this.props.onFilterTable(filter);
     this.setState({
       [name]: value
     });
 
   }
   render() {      
-    var {tasks} = this.props;
+    var {tasks, filterTable} = this.props;
     var {filterName, filterStatus} = this.state;
+    
+    //------------FILTER TABLE---------------------     
+      if(filterTable.name){
+        tasks = tasks.filter((task) =>{
+          return task.name.toLowerCase().indexOf(filterTable.name.toLowerCase()) !== -1;
+        });
+      }
+      tasks = tasks.filter((task) => {
+        if(filterTable.status === -1){
+          return task; 
+        }else {
+          return task.status === (filterTable.status === 1 ? true : false);
+        }
+      });            
+
     var eleTasks = tasks.map((task, index) =>{
       return <TaskItem key={task.id} 
                        index={index + 1}
@@ -67,8 +84,17 @@ class TaskList extends Component {
 //Các state của Store sẽ chuyển thành các Props
 const mapStateToProps = state =>{
   return {
-    tasks: state.tasks 
+    tasks: state.tasks,
+    filterTable: state.filterTable 
   }
 }
 
-export default connect(mapStateToProps, null)(TaskList);
+const mapDispatchToProps = (dispatch, props) =>{
+  return{
+    onFilterTable: filter =>{
+      dispatch(actions.filterTask(filter));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

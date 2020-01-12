@@ -10,21 +10,25 @@ import * as actions from './Action/index';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {            
-      taskEditing: null,
-      filter: {
-        name: '',
-        status: -1
-      },
-      keyword: '',
-      itemEditing: null,
+    this.state = {                      
+      keyword: '',      
       sortBy: 'name',
       sortValue: 1
     }
   }   
   // ----------------------FUNCTION----------------------  
-  onToggleForm = () =>{      
-    this.props.onToggleForm();
+  onToggleForm = () =>{  
+    var {itemEditing} = this.props;
+    if(itemEditing && itemEditing.id !== ''){
+
+    }else{
+      this.props.onToggleForm();      
+    }    
+    this.props.onClearTask({
+      id: '',
+      name: '',
+      status: false
+  });
   }
   onShowForm = () =>{
     this.setState({
@@ -32,16 +36,7 @@ class App extends Component {
     });
   } 
   
-  
-  onFilter = (filterName, filterStatus) =>{    
-    filterStatus = parseInt(filterStatus, 10); //Chuyển kiểu dữ liệu string -> boolean    
-    this.setState({
-      filter: {
-        name: filterName.toLowerCase(),
-        status: filterStatus
-      }
-    });
-  }
+ 
   onSearch = (keyword) =>{
     this.setState({
       keyword: keyword
@@ -67,24 +62,9 @@ class App extends Component {
   // ----------------------END FUNCTION----------------------
   
   render() {    
-    var { taskEditing, sortBy, sortValue} = this.state;    
+    var { sortBy, sortValue} = this.state;
     var {isDisplayForm} = this.props;
-    
-    // if(filter){
-    //   if(filter.name){ //Tồn tại
-    //     tasks = tasks.filter((task) =>{
-    //       return task.name.toLowerCase().indexOf(filter.name) !== -1;
-    //     });
-    //   }
-    //   tasks = tasks.filter((task) => {
-    //     if(filter.status === -1){
-    //       return task;
-    //     }else {
-    //       return task.status === (filter.status === 1 ? true : false);
-    //     }
-    //   });      
-    // }
-
+       
     // if(keyword){
     //   tasks = tasks.filter((task) =>{
     //     return task.name.toLowerCase().indexOf(keyword) !== -1;
@@ -116,7 +96,7 @@ class App extends Component {
         <div className="row">
           <div className={isDisplayForm === true ? "col-xs-4 col-sm-4 col-md-4 col-lg-4" : ''}>
             {/* TaskForm */}
-            <TaskForm task={taskEditing} />
+            <TaskForm/>
           </div>
           <div className={isDisplayForm === true ? "col-xs-8 col-sm-8 col-md-8 col-lg-8"  : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
             <button type="button" className="btn btn-primary" onClick={this.onToggleForm}>
@@ -127,7 +107,7 @@ class App extends Component {
             {/* List */}
             <div className="row mt-15">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <TaskList onFilter={this.onFilter}/>
+                <TaskList/>
               </div>
             </div>
           </div>
@@ -139,7 +119,8 @@ class App extends Component {
 
 const mapStateToProps = state =>{
   return{
-    isDisplayForm: state.isDisplayForm //state này từ store
+    isDisplayForm: state.isDisplayForm, //State lấy từ store  
+    itemEditing: state.itemEditing
   }
 }
 
@@ -150,7 +131,13 @@ const mapDispatchToProps = (dispatch, props) =>{
     },   
     onOpenForm: () =>{
       dispatch(actions.openForm());
-    }
+    },
+    onClearTask: (task) => {
+      dispatch(actions.editTask(task));
+    },
+    onOpenForm: () =>{
+      dispatch(actions.openForm());
+    },
   }
 }
 
