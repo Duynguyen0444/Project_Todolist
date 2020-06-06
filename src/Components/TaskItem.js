@@ -18,7 +18,7 @@ class TaskItem extends Component {
   }
   // ----------------------END FUNCTION----------------------
   render() {
-    var {task, index} = this.props
+    var {task, index} = this.props;
     return (
       <tr>
         <td>{index }</td>
